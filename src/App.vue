@@ -1,26 +1,30 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <FaceCamera @face-captured="handleFaceCaptured" />
+    <FaceComparison :faceEncoding="capturedFaceEncoding" />
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import FaceCamera from './components/FaceCamera.vue';
+import FaceComparison from './components/FaceComparison.vue';
+
 
 export default {
-  name: 'App',
+  name: 'FaceAttendance',
   components: {
-    HelloWorld
+    FaceCamera,
+    FaceComparison
+  },
+  data() {
+    return {
+      capturedFaceEncoding: ''
+    };
+  },
+  methods: {
+    handleFaceCaptured(encoding) {
+      this.capturedFaceEncoding = encoding;
+    }
   }
-}
+};
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
