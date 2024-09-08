@@ -58,7 +58,7 @@ export default {
       let intervalId;
 
       const checkRecognition = async () => {
-        if (this.recognitionDone) return; // Jika sudah dikenali, tidak perlu melanjutkan
+        if (this.recognitionDone) return;
 
         const detections = await faceapi.detectAllFaces(this.video, new faceapi.TinyFaceDetectorOptions())
           .withFaceLandmarks()
@@ -97,23 +97,19 @@ export default {
               console.error('Error mengirim data ke Trytond:', error);
             }
 
-            this.toast.info("Windows will be closed. Thank you for initializing your face. Have a good day.");
+            this.toast.info("Please close the window after you see this. Thank you and have a good day.");
 
-            // Tambahkan delay sebelum menutup aplikasi
             setTimeout(() => {
-              window.close(); // Kirim perintah untuk menutup aplikasi
-            }, 10000); // 10000 ms (10 detik) untuk memberi waktu tampilan toast
+              window.close();
+            }, 10000); 
 
-            // Hentikan interval setelah pengenalan berhasil
             clearInterval(intervalId);
           }
         }
       };
 
-      // Jalankan `checkRecognition` setiap 100 ms
       intervalId = setInterval(checkRecognition, 100);
 
-      // Hentikan interval jika tidak ada pengenalan wajah selama 10 detik
       setTimeout(() => {
         clearInterval(intervalId);
       }, 10000);
