@@ -37,15 +37,21 @@ export default {
     navigator.mediaDevices.getUserMedia({ video: {} })
       .then(stream => {
         this.video.srcObject = stream;
-        this.video.addEventListener('loadedmetadata', () => {
-          this.video.play();
-          this.startFaceRecognition();
-        });
       })
       .catch(err => console.error('Error accessing video stream:', err));
   },
+  watch: {
+    employeeId(newValue) {
+      if (newValue) {
+        console.log('Employee ID entered:', newValue); // Log employeeId
+        this.startFaceRecognition();
+      }
+    }
+  },
   methods: {
     async startFaceRecognition() {
+      if (this.recognitionDone) return;
+
       const displaySize = { width: this.video.videoWidth, height: this.video.videoHeight };
 
       if (displaySize.width === 0 || displaySize.height === 0) {
@@ -71,19 +77,19 @@ export default {
         faceapi.draw.drawDetections(this.canvas, resizedDetections);
         faceapi.draw.drawFaceLandmarks(this.canvas, resizedDetections);
 
-        // Filter detections based on confidence level
-        const validDetections = resizedDetections.filter(detection => {
-          return detection.detection.score > 0.8; // Threshold untuk confidence
-        });
+        const validDetections = resizedDetections.filter(detection => detection.detection.score > 0.8);
 
         if (validDetections.length > 0) {
           const encoding = validDetections[0].descriptor;
           this.faceEncoding = JSON.stringify(Array.from(encoding));
 
           if (!this.recognitionDone) {
-            this.recognitionDone = true; // Tandai bahwa pengenalan wajah sudah dilakukan
+            this.recognitionDone = true;
 
             this.toast.success("Face detected!");
+
+            console.log('Employee ID:', this.employeeId); 
+            console.log('Face Encoding:', this.faceEncoding); 
 
             try {
               const response = await axios.post('http://127.0.0.1:8002/face_recognition/create', {
