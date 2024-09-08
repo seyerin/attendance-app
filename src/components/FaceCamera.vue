@@ -30,15 +30,24 @@ export default {
     this.video = this.$refs.video;
     this.canvas = this.$refs.canvas;
 
+    // Memuat model-model dari face-api.js
     await faceapi.nets.tinyFaceDetector.loadFromUri('/models');
     await faceapi.nets.faceLandmark68Net.loadFromUri('/models');
     await faceapi.nets.faceRecognitionNet.loadFromUri('/models');
 
-    navigator.mediaDevices.getUserMedia({ video: {} })
-      .then(stream => {
+    // Mengakses kamera
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: {} });
         this.video.srcObject = stream;
-      })
-      .catch(err => console.error('Error accessing video stream:', err));
+      } catch (err) {
+        console.error('Error accessing video stream:', err);
+        this.toast.error("Failed to access camera. Please ensure your browser supports camera access.");
+      }
+    } else {
+      console.error('getUserMedia is not supported in this browser.');
+      this.toast.error("Camera access is not supported in this browser.");
+    }
   },
   watch: {
     employeeId(newValue) {
@@ -87,9 +96,8 @@ export default {
             this.recognitionDone = true;
 
             this.toast.success("Face detected!");
-
-            console.log('Employee ID:', this.employeeId); 
-            console.log('Face Encoding:', this.faceEncoding); 
+            console.log('Employee ID:', this.employeeId);
+            console.log('Face Encoding:', this.faceEncoding);
 
             try {
               const response = await axios.post('http://127.0.0.1:8002/face_recognition/create', {
@@ -101,6 +109,7 @@ export default {
               console.log('Data berhasil dikirim ke Trytond:', response.data);
             } catch (error) {
               console.error('Error mengirim data ke Trytond:', error);
+              this.toast.error("Error sending data to the server.");
             }
 
             this.toast.info("Please close the window after you see this. Thank you and have a good day.");
