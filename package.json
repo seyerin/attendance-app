@@ -10,13 +10,16 @@
     "electron:build": "npm run build && electron electron/main.js"
   },
   "dependencies": {
+    "autoprefixer": "^10.4.20",
     "axios": "^1.7.7",
     "buffer": "^6.0.3",
     "core-js": "^3.8.3",
     "electron": "^32.0.2",
     "face-api.js": "^0.22.2",
     "path-browserify": "^1.0.1",
+    "postcss": "^8.4.45",
     "stream-browserify": "^3.0.0",
+    "tailwindcss": "^3.4.10",
     "vue": "^3.2.13",
     "vue-router": "^4.0.13",
     "vue-toastification": "^2.0.0-rc.5",

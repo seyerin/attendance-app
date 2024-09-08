@@ -4,6 +4,7 @@ import store from '../store/index.js';
 import router from '../router/index.js'; // Pastikan router diimpor
 import Toast, { POSITION } from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
+import './assets/styles/tailwind.css'; 
 
 const app = createApp(App);
 

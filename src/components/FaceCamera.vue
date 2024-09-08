@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <video ref="video" autoplay muted></video>
-    <canvas ref="canvas"></canvas>
-    <input v-model="employeeId" placeholder="Enter Employee ID" />
+  <div class="flex flex-col items-center relative">
+    <video ref="video" autoplay muted class="rounded-full w-64 h-64 object-cover"></video>
+    <canvas ref="canvas" class="w-64 h-64 absolute top-0 left-0"></canvas>
+    <input v-model="employeeId" placeholder="Enter Employee ID" class="mt-4 p-2 border rounded"/>
   </div>
 </template>
 
@@ -134,8 +134,14 @@ export default {
 </script>
 
 <style scoped>
-video, canvas {
+video {
+  border: 2px solid #ddd; 
   width: 50%;
-  height: auto;
+  height: 50%;
+  border-radius: 50%;
 }
+
+/* canvas {
+  border: 2px solid #ddd;
+} */
 </style>
