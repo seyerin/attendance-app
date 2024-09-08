@@ -1,25 +1,23 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import FaceCamera from '@/components/FaceCamera.vue';
-import FaceComparison from '@/components/FaceComparison.vue';
+import { createRouter, createWebHistory } from 'vue-router';
+import FaceComparisonPage from '@/pages/FaceComparisonPage.vue'; 
+import FaceCameraPage from '@/pages/FaceCameraPage.vue'; 
 
-Vue.use(Router);
+const routes = [
+  {
+    path: '/face-comparison',
+    name: 'FaceComparison',
+    component: FaceComparisonPage,
+  },
+  {
+    path: '/face-camera',
+    name: 'FaceCamera',
+    component: FaceCameraPage,
+  },
+];
 
-export default new Router({
-  routes: [
-    {
-      path: '/face-camera',
-      name: 'FaceCamera',
-      component: FaceCamera,
-    },
-    {
-      path: '/face-comparison',
-      name: 'FaceComparison',
-      component: FaceComparison,
-    },
-    {
-      path: '/',
-      redirect: '/face-camera',
-    },
-  ],
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
 });
+
+export default router;

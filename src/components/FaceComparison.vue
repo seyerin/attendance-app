@@ -42,7 +42,6 @@ export default {
           check_type: this.checkType,
         }, {
           headers: {
-            'Authorization': 'Bearer YOUR_API_KEY_HERE',
             'Content-Type': 'application/json'
           }
         });

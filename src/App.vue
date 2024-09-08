@@ -1,30 +1,19 @@
 <template>
-  <div>
-    <FaceCamera @face-captured="handleFaceCaptured" />
-    <FaceComparison :faceEncoding="capturedFaceEncoding" />
+  <div id="app">
+    <router-view></router-view>
+    <div>
+      <router-link to="/face-camera">Go to Face Camera</router-link>
+      <router-link to="/face-comparison">Go to Face Comparison</router-link>
+    </div>
   </div>
 </template>
 
 <script>
-import FaceCamera from './components/FaceCamera.vue';
-import FaceComparison from './components/FaceComparison.vue';
-
-
 export default {
-  name: 'FaceAttendance',
-  components: {
-    FaceCamera,
-    FaceComparison
-  },
-  data() {
-    return {
-      capturedFaceEncoding: ''
-    };
-  },
-  methods: {
-    handleFaceCaptured(encoding) {
-      this.capturedFaceEncoding = encoding;
-    }
-  }
+  name: 'App'
 };
 </script>
+
+<style>
+/* Your styles here */
+</style>
